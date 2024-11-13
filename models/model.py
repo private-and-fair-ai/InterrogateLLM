@@ -122,6 +122,7 @@ class ModelPipe:
         skip_index = 0
         with open("skipped.json", "r") as f:
             skipper_data = json.load(f)
+        print("loaded skipper", skipper_data)
         
         # check if there are already results in the save path (if the experiment was stopped and we want to continue from the last point)
         if os.path.isdir(os.path.join(save_path, 'res_pkl')):
