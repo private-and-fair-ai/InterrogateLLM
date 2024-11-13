@@ -2,6 +2,7 @@ import re
 import os
 import abc
 import pickle as pkl
+import json
 
 from tqdm import tqdm
 from multiprocessing import Pool
@@ -119,6 +120,8 @@ class ModelPipe:
         results = []
         index = 0
         skip_index = 0
+        with open("skipped.json", "r") as f:
+            skipper_data = json.load(f)
         
         # check if there are already results in the save path (if the experiment was stopped and we want to continue from the last point)
         if os.path.isdir(os.path.join(save_path, 'res_pkl')):
@@ -133,7 +136,7 @@ class ModelPipe:
 
         # iterate over the dataset (if we want to continue from the last point, we skip the first skip_index examples)
         for question, questions_args, answer_args in tqdm(self.dataset_generator(), total=4000):
-            if index < skip_index:
+            if index < skipper_data["start"] or index > skipper_data["end"]:
                 index += 1
                 continue
             
