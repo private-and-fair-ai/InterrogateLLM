@@ -15,8 +15,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 class GPT3:
     """Class for interacting with the OpenAI API."""
     def __init__(self):
-        self.deployment_id = 'text-davinci-003'
-        self.deployment_id = 'd365-sales-davinci003'
+        self.model_name = 'text-davinci-002'
         self.client = openai.OpenAI(
             api_key="OPENAI_API_KEY",
             base_url="https://cmu.litellm.ai",
@@ -28,8 +27,8 @@ class GPT3:
         
         while(True):
             try:
-                response = self.client.chat.completions.create(engine=self.deployment_id,
-                                                    prompt=prompt,
+                response = self.client.chat.completions.create(model=self.model_name,
+                                                    prompt=[{"role": "user", "content": prompt}],
                                                     max_tokens=max_tokens,
                                                     temperature=temperature,
                                                     n=n
