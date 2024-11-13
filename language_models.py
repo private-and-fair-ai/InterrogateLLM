@@ -28,7 +28,7 @@ class GPT3:
         while(True):
             try:
                 response = self.client.completions.create(model=self.model_name,
-                                                    messages=[{"role": "user", "content": prompt}],
+                                                    prompt=prompt,
                                                     max_tokens=max_tokens,
                                                     temperature=temperature,
                                                     n=n
