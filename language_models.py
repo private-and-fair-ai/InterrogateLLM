@@ -73,7 +73,7 @@ class LLamaV2:
 
     def submit_request(self, prompt, temperature=0.6, max_length=300, top_p=0.9, split_by='Question:'):
         do_sample = True
-        response = client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model=self.model_name,
             messages=[
                 {"role": "user", "content": prompt},
