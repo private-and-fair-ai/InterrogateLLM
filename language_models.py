@@ -19,6 +19,7 @@ class GPT3:
         self.deployment_id = 'd365-sales-davinci003'
         self.client = openai.OpenAI(
             api_key="OPENAI_API_KEY",
+            base_url="https://cmu.litellm.ai",
         )
 
     def submit_request(self, prompt, temperature=0.7, max_tokens=1024, n=1, split_by=None):
