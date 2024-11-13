@@ -199,7 +199,7 @@ class ModelPipe:
             results.append(log)
 
             # save the results every x examples
-            if len(results) % 50 == 0:
+            if len(results) % 10 == 0:
                 dir_path = os.path.join(save_path, f'res_pkl')
                 os.makedirs(dir_path, exist_ok=True)
                 file_path = os.path.join(dir_path, f'res_{len(results)}.pkl')
