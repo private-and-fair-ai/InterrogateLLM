@@ -17,6 +17,9 @@ class GPT3:
     def __init__(self):
         self.deployment_id = 'text-davinci-003'
         self.deployment_id = 'd365-sales-davinci003'
+        self.client = openai.OpenAI(
+            api_key="OPENAI_API_KEY",
+        )
 
     def submit_request(self, prompt, temperature=0.7, max_tokens=1024, n=1, split_by=None):
         """Submit a request to the OpenAI API."""
@@ -24,7 +27,7 @@ class GPT3:
         
         while(True):
             try:
-                response = openai.Completion.create(engine=self.deployment_id,
+                response = self.client.chat.completion.create(engine=self.deployment_id,
                                                     prompt=prompt,
                                                     max_tokens=max_tokens,
                                                     temperature=temperature,
