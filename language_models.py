@@ -63,32 +63,26 @@ class LLamaV2:
             MODEL = f'meta-llama/Llama-2-{model_size}b-chat-hf'
         else:
             MODEL = f'meta-llama/Llama-2-{model_size}b-hf'
+        self.model_name = MODEL
         
-        self.model = AutoModelForCausalLM.from_pretrained(MODEL, 
-                                                          low_cpu_mem_usage=True, 
-                                                          device_map=device_map,  
-                                                          torch_dtype=torch.float16)
-        
-        self.tokenizer = AutoTokenizer.from_pretrained(MODEL)
-        self.model_config = GenerationConfig.from_model_config(self.model.config)
+        self.client = openai.OpenAI(
+            api_key="TOGETHER_API_KEY",
+            base_url="https://api.together.xyz/v1",
+        )
 
 
     def submit_request(self, prompt, temperature=0.6, max_length=300, top_p=0.9, split_by='Question:'):
-
-        self.model_config.temperature = temperature
-        self.model_config.top_p = top_p
-        self.model_config.max_new_tokens = max_length
-        self.model_config.do_sample = True
-
-
-        encoded = self.tokenizer(prompt, return_tensors="pt")
-        generated = self.model.generate(encoded["input_ids"].to(self.model.device), 
-                                        generation_config=self.model_config)[0]
-
-        decoded = self.tokenizer.decode(generated, 
-                                        skip_special_tokens=True, 
-                                        clean_up_tokenization_spaces=False)
-      
+        do_sample = True
+        response = client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "user", "content": prompt},
+            ],
+            temperature=temperature,
+            max_length=max_length,
+            top_p=0.9,
+        )
+        decoded = response.choices[0].message.content
         response = decoded.strip().split(prompt)
         response = [res.strip() for res in response if res != ''][0]
         response = response.split(split_by)[0].strip()
