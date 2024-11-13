@@ -13,39 +13,37 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 # openai.api_version = config('API_VERSION')
 
 class GPT3:
+    """Class for interacting with the OpenAI API."""
     def __init__(self):
-        self.api_key = 'OPENAI_API_KEY'
-        self.base_url = "https://cmu.litellm.ai"
-        self.model = "text-davinci-003" 
-        self.client = openai.OpenAI(
-            api_key=self.api_key,
-            base_url=self.base_url
-        )
+        self.deployment_id = 'text-davinci-003'
+        self.deployment_id = 'd365-sales-davinci003'
 
-    def submit_request(self, messages, temperature=0.7, max_tokens=1024):
+    def submit_request(self, prompt, temperature=0.7, max_tokens=1024, n=1, split_by=None):
+        """Submit a request to the OpenAI API."""
         error_counter = 0
-
-        while True:
+        
+        while(True):
             try:
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=messages,
-                    temperature=temperature,
-                    max_tokens=max_tokens
-                )
+                response = openai.Completion.create(engine=self.deployment_id,
+                                                    prompt=prompt,
+                                                    max_tokens=max_tokens,
+                                                    temperature=temperature,
+                                                    n=n
+                                                    )
                 break
 
             except Exception as anything:
-                if 'string indices must be integers' in str(anything) or 'The response was filtered' in str(anything):
-                    return {'choices': [{'content': ''}]}
+                if anything.args[0] == 'string indices must be integers' or 'The response was filtered' in anything.args[0]:
+                    return {'choices': [{'text': ''}]}
 
                 time.sleep(1)
                 error_counter += 1
                 if error_counter > 10:
                     raise anything
 
-        response = [res['content'].strip() for res in response['choices']]
+        response = [res['text'].strip() for res in response['choices']]
         return response
+
 
 class LLamaV2:
     def __init__(self, model_size=7, model_type='chat', device_map="auto"):
