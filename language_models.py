@@ -28,7 +28,7 @@ class GPT3:
         
         while(True):
             try:
-                response = self.client.chat.completion.create(engine=self.deployment_id,
+                response = self.client.chat.completions.create(engine=self.deployment_id,
                                                     prompt=prompt,
                                                     max_tokens=max_tokens,
                                                     temperature=temperature,
