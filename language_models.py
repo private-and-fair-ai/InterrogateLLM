@@ -80,7 +80,6 @@ class LLamaV2:
             ],
             temperature=temperature,
             max_tokens=max_length,
-            max_length=max_length,
             top_p=0.9,
         )
         decoded = response.choices[0].message.content
