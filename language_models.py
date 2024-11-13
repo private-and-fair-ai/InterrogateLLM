@@ -44,7 +44,7 @@ class GPT3:
                 if error_counter > 10:
                     raise anything
 
-        response = [res['text'].strip() for res in response['choices']]
+        response = [res.text.strip() for res in response.choices]
         return response
 
 
