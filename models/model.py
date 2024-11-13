@@ -132,7 +132,7 @@ class ModelPipe:
                 results = pkl.load(handle)
 
         # iterate over the dataset (if we want to continue from the last point, we skip the first skip_index examples)
-        for question, questions_args, answer_args in tqdm(self.dataset_generator()):
+        for question, questions_args, answer_args in tqdm(self.dataset_generator(), total=4000):
             if index < skip_index:
                 index += 1
                 continue
