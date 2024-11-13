@@ -7,10 +7,10 @@ from sentence_transformers import SentenceTransformer
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 
 
-openai.api_key = config('API_KEY')
-openai.api_base = config('API_BASE')
-openai.api_type = config('API_TYPE')
-openai.api_version = config('API_VERSION')
+# openai.api_key = config('API_KEY')
+# openai.api_base = config('API_BASE')
+# openai.api_type = config('API_TYPE')
+# openai.api_version = config('API_VERSION')
 
 class GPT3:
     def __init__(self):
