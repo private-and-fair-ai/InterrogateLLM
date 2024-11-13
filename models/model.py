@@ -20,10 +20,15 @@ def question_pred(model, prompt, model_name, temperatures):
     return {model_name:res}
 
 # reconstruct question from the answer using the reconstruction models (gpt, llamaV2-7, llamaV2-13) using multiprocessing pool for parallelism 
-def reconstruct_pool(models, prompt, temperatures):
-    with Pool() as pool:
-        tmp = pool.starmap(question_pred, [(models[0], prompt, 'gpt', temperatures), (models[1], prompt, 'l7', temperatures), (models[2], prompt, 'l13', temperatures)])
-    return tmp
+def reconstruct_sequential(models, prompt, temperatures):
+    results = []
+    model_names = ['gpt', 'l7', 'l13']
+    
+    for model, name in zip(models, model_names):
+        result = question_pred(model, prompt, name, temperatures)
+        results.append(result)
+        
+    return results
 
 
 class ModelPipe:
