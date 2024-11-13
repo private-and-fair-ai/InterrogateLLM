@@ -79,6 +79,7 @@ class LLamaV2:
                 {"role": "user", "content": prompt},
             ],
             temperature=temperature,
+            max_tokens=max_length,
             max_length=max_length,
             top_p=0.9,
         )
