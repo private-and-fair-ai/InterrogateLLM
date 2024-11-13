@@ -20,7 +20,7 @@ def question_pred(model, prompt, model_name, temperatures):
     return {model_name:res}
 
 # reconstruct question from the answer using the reconstruction models (gpt, llamaV2-7, llamaV2-13) using multiprocessing pool for parallelism 
-def reconstruct_sequential(models, prompt, temperatures):
+def reconstruct_pool(models, prompt, temperatures):
     results = []
     model_names = ['gpt', 'l7', 'l13']
     
