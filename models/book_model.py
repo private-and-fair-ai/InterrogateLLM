@@ -36,6 +36,7 @@ class BookModel(ModelPipe):
         @return: return a generator of dataset
         """
         books_dataset = self.read_dataset()
+        print(books_dataset.shape)
         for index, book in books_dataset.iterrows():
             if index > 4000:
                 break
