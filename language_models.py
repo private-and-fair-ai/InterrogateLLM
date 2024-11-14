@@ -9,7 +9,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 class GPT3:
     """Class for interacting with the OpenAI API."""
     def __init__(self):
-        self.model_name = 'davinci-002'
+        self.model_name = 'davinci-003'
         self.client = openai.OpenAI(
             api_key="OPENAI_API_KEY",
         )
@@ -27,6 +27,7 @@ class GPT3:
                                                     n=n
                                                     )
                 break
+
             except Exception as anything:
                 if anything.args[0] == 'string indices must be integers' or 'The response was filtered' in anything.args[0]:
                     return {'choices': [{'text': ''}]}
@@ -35,7 +36,6 @@ class GPT3:
                 error_counter += 1
                 if error_counter > 10:
                     raise anything
-
         response = [res.text.strip() for res in response.choices]
         return response
 
