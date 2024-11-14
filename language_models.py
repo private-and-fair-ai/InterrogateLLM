@@ -27,7 +27,6 @@ class GPT3:
                                                     n=n
                                                     )
                 break
-
             except Exception as anything:
                 if anything.args[0] == 'string indices must be integers' or 'The response was filtered' in anything.args[0]:
                     return {'choices': [{'text': ''}]}
@@ -39,7 +38,6 @@ class GPT3:
 
         response = [res.text.strip() for res in response.choices]
         return response
-
 
 class LLamaV2:
     def __init__(self, model_size=7, model_type='chat', device_map="auto"):
