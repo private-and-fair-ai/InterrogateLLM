@@ -15,7 +15,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 class GPT3:
     """Class for interacting with the OpenAI API."""
     def __init__(self):
-        self.model_name = 'davinci-002'
+        self.model_name = 'davinci-003'
         self.client = openai.OpenAI(
             api_key="OPENAI_API_KEY",
             base_url="https://cmu.litellm.ai",
