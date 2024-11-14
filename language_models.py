@@ -6,19 +6,12 @@ from decouple import config
 from sentence_transformers import SentenceTransformer
 from transformers import AutoTokenizer, AutoModelForCausalLM, GenerationConfig
 
-
-# openai.api_key = config('API_KEY')
-# openai.api_base = config('API_BASE')
-# openai.api_type = config('API_TYPE')
-# openai.api_version = config('API_VERSION')
-
 class GPT3:
     """Class for interacting with the OpenAI API."""
     def __init__(self):
-        self.model_name = 'davinci-003'
+        self.model_name = 'davinci-002'
         self.client = openai.OpenAI(
             api_key="OPENAI_API_KEY",
-            base_url="https://cmu.litellm.ai",
         )
 
     def submit_request(self, prompt, temperature=0.7, max_tokens=1024, n=1, split_by=None):
@@ -43,6 +36,7 @@ class GPT3:
                 error_counter += 1
                 if error_counter > 10:
                     raise anything
+
         response = [res.text.strip() for res in response.choices]
         return response
 
